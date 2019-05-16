@@ -1,33 +1,53 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import {
+  MDBNavbar,
+  MDBNavbarBrand,
+  MDBNavbarNav,
+  MDBNavbarToggler,
+  MDBCollapse,
+  MDBNavItem,
+  MDBNavLink
+} from "mdbreact";
 
 export default class AppNavbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      collapse: false
+    };
+    this.onClick = this.onClick.bind(this);
+  }
+
+  onClick() {
+    this.setState({
+      collapse: !this.state.collapse
+    });
+  }
   render() {
     return (
-      <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4">
-        <div className="container">
-          <Link to="/" className="navbar-brand">
-            ClientPanel
-          </Link>
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarMain"
+      <div className="pb-5">
+        <header className="mb-5">
+          <MDBNavbar
+            color=" deep-purple darken-4"
+            dark
+            expand="md"
+            scrolling
+            fixed="top"
           >
-            <span className="navbar-toggler-icon"> </span>
-          </button>
-          <div className="collapse navbar-collapse" id="navbarMain">
-            <ul className="navbar-nav mr-auto">
-              <li className="nav-item">
-                <Link to="/" className="nav-link">
-                  Dashboard
-                </Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+            <MDBNavbarBrand href="/">
+              <strong>Client Panel</strong>
+            </MDBNavbarBrand>
+            <MDBNavbarToggler onClick={this.onClick} />
+            <MDBCollapse isOpen={this.state.collapse} navbar>
+              <MDBNavbarNav left>
+                <MDBNavItem active>
+                  <MDBNavLink to="/">Dashboard</MDBNavLink>
+                </MDBNavItem>
+              </MDBNavbarNav>
+            </MDBCollapse>
+          </MDBNavbar>
+        </header>
+      </div>
     );
   }
 }
