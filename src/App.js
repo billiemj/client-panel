@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { MDBContainer } from "mdbreact";
 import AppNavbar from "./components/layouts/AppNavbar";
+import Dashboard from "./components/layouts/Dashboard";
 
 import "./App.css";
 class App extends Component {
@@ -9,7 +11,10 @@ class App extends Component {
       <Router>
         <div className="App">
           <AppNavbar />
-          <h1>Hello</h1>
+          <MDBContainer />
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+          </Switch>
         </div>
       </Router>
     );

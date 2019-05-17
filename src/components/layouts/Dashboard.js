@@ -1,13 +1,19 @@
 import React, { Component } from "react";
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
+import Clients from "../clients/Clients";
+import Sidebar from "../layouts/Sidebar";
 
-class Dashboard extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Hello</h1>
-      </div>
-    );
-  }
+export default function Dashboard() {
+  return (
+    <MDBContainer>
+      <MDBRow>
+        <MDBCol md="10">
+          <Clients />
+        </MDBCol>
+        <MDBCol md="2">
+          <Sidebar />
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+  );
 }
-
-export default Dashboard;
