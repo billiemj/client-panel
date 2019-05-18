@@ -1,4 +1,9 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { compose } from "redux";
+import { connect, context } from "react-redux";
+import { firestoreConnect } from "react-redux-firebase";
+import Spinner from "../layouts/Spinner";
 
 import {
   MDBContainer,
@@ -12,25 +17,25 @@ import {
 } from "mdbreact";
 
 class Clients extends Component {
+  state = {
+    totalOwed: null
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    const { clients } = props;
+
+    if (clients) {
+      const total = clients.reduce((total, client) => {
+        return total + parseFloat(client.balance.toString());
+      }, 0);
+      return { totalOwed: total };
+    }
+    return null;
+  }
+
   render() {
-    const clients = [
-      {
-        id: "1234",
-        firstName: "Billie",
-        lastName: "Muzzy",
-        email: "billiemj@gmail.com",
-        phone: "763-218-7767",
-        balance: "10.00"
-      },
-      {
-        id: "1235",
-        firstName: "Ben",
-        lastName: "Muzzy",
-        email: "muzz826@gmail.com",
-        phone: "763-218-1595",
-        balance: "1.00"
-      }
-    ];
+    const { clients } = this.props;
+    const { totalOwed } = this.state;
 
     if (clients) {
       return (
@@ -42,7 +47,14 @@ class Clients extends Component {
                 {""} Clients
               </h2>
             </MDBCol>
-            <MDBCol md="6" />
+            <MDBCol md="6">
+              <h5 className="text-right text-secondary">
+                Total Owed:{" "}
+                <span className="text-primary">
+                  ${parseFloat(totalOwed).toFixed(2)}
+                </span>
+              </h5>
+            </MDBCol>
           </MDBRow>
           <MDBTable striped>
             <MDBTableHead>
@@ -78,9 +90,19 @@ class Clients extends Component {
         </MDBContainer>
       );
     } else {
-      return <h1>Loading...</h1>;
+      return <Spinner />;
     }
   }
 }
 
-export default Clients;
+Clients.propTypes = {
+  firestore: PropTypes.object.isRequired,
+  clients: PropTypes.array
+};
+
+export default compose(
+  firestoreConnect([{ collection: "clients" }]),
+  connect((state, props) => ({
+    clients: state.firestore.ordered.clients
+  }))
+)(Clients);
