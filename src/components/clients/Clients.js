@@ -79,8 +79,7 @@ class Clients extends Component {
                       color="secondary"
                       size="sm"
                     >
-                      <MDBIcon far icon="arrow-alt-circle-right" />
-                      Details
+                      <MDBIcon far icon="arrow-alt-circle-right" /> Details
                     </MDBBtn>
                   </td>
                 </tr>

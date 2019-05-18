@@ -7,6 +7,7 @@ import store from "./store";
 import { MDBContainer } from "mdbreact";
 import AppNavbar from "./components/layouts/AppNavbar";
 import Dashboard from "./components/layouts/Dashboard";
+import AddClient from "./components/clients/AddClient";
 
 import "./App.css";
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
             <MDBContainer />
             <Switch>
               <Route exact path="/" component={Dashboard} />
+              <Route exact path="/client/add" component={AddClient} />
             </Switch>
           </div>
         </Router>
