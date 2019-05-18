@@ -12,19 +12,77 @@ import {
   MDBCard,
   MDBCardBody,
   MDBIcon,
-  MDBCardHeader
+  MDBCardHeader,
+  MDBInput
 } from "mdbreact";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
 
 class ClientDetails extends Component {
+  state = {
+    showBalanceUpdate: false,
+    balanceUpdateAmount: ""
+  };
+
+  //Update balance
+  balanceSubmit = e => {
+    e.preventDefault();
+    const { client, firestore } = this.props;
+    const { balanceUpdateAmount } = this.state;
+
+    const clientUpdate = {
+      balance: parseFloat(balanceUpdateAmount)
+    };
+
+    // Update in Firestore
+    firestore.update({ collection: "clients", doc: client.id }, clientUpdate);
+  };
+
+  // Delete Client
+  onDeleteClick = () => {
+    const { client, firestore, history } = this.props;
+
+    firestore
+      .delete({ collection: "clients", doc: client.id })
+      .then(history.push("/"));
+  };
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
   render() {
     const { client } = this.props;
+    const { showBalanceUpdate, balanceUpdateAmount } = this.state;
+
+    let balanceForm = "";
+    //If balance form shoould display
+    if (showBalanceUpdate) {
+      balanceForm = (
+        <form onSubmit={this.balanceSubmit}>
+          <div className="input-group mb-3">
+            <input
+              type="number"
+              name="balanceUpdateAmount"
+              placeholder="Add New Balance"
+              value={balanceUpdateAmount}
+              onChange={this.onChange}
+            />
+            <div className="input-group-append">
+              <input
+                className="btn btn-outline-deep-purple waves-effect m-0 px-3 py-2 z-depth-0 waves-effect"
+                type="submit"
+                value="Update"
+              />
+            </div>
+          </div>
+        </form>
+      );
+    } else {
+      balanceForm = null;
+    }
 
     if (client) {
       return (
         <div>
-          <MDBContainer>
+          <MDBContainer className="text-left">
             <MDBRow>
               <MDBCol md="6">
                 <Link to="/" className="btn btn-link">
@@ -33,7 +91,7 @@ class ClientDetails extends Component {
               </MDBCol>
               <MDBCol md="6">
                 <div
-                  class="btn-group float-right"
+                  className="btn-group float-right"
                   role="group"
                   aria-label="Basic example"
                 >
@@ -46,6 +104,7 @@ class ClientDetails extends Component {
                     Edit
                   </MDBBtn>
                   <MDBBtn
+                    onClick={this.onDeleteClick}
                     type="button"
                     className="btn btn-outline-deep-purple waves-effect"
                   >
@@ -64,15 +123,15 @@ class ClientDetails extends Component {
               </MDBCardHeader>
               <MDBCardBody>
                 <MDBRow>
-                  <MDBCol md-8 sm-6>
+                  <MDBCol md="8" sm="6">
                     <h4>
-                      Client ID{" "}
+                      Client ID:{" "}
                       <span className="text-secondary">{client.id}</span>
                     </h4>
                   </MDBCol>
 
-                  <MDBCol md-4 sm-6>
-                    <h3 className="pull-right">
+                  <MDBCol md="4" sm-sm="6">
+                    <h3>
                       Balance:{" "}
                       <span
                         className={classnames({
@@ -82,8 +141,25 @@ class ClientDetails extends Component {
                       >
                         ${parseFloat(client.balance).toFixed(2)}
                       </span>
+                      <small>
+                        <a
+                          href="#!"
+                          onClick={() =>
+                            this.setState({
+                              showBalanceUpdate: !this.state.showBalanceUpdate
+                            })
+                          }
+                        >
+                          {" "}
+                          <MDBIcon
+                            icon="pencil-alt"
+                            className="text-secondary"
+                          />
+                        </a>
+                      </small>
                     </h3>
-                    {/*@tod -balancefore */}
+
+                    {balanceForm}
                   </MDBCol>
                 </MDBRow>
                 <hr />
