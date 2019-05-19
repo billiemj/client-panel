@@ -117,7 +117,7 @@ class EditClient extends Component {
                     <div className="form-group">
                       <label htmlFor="balance">Balance</label>
                       <input
-                        type="text"
+                        type="number"
                         className="form-control"
                         name="balance"
                         ref={this.balanceInput}

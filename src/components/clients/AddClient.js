@@ -104,7 +104,7 @@ class AddClient extends Component {
                     label="Balance"
                     icon="hand-holding-usd"
                     group
-                    type="text"
+                    type="number"
                     name="balance"
                     value={this.state.balance}
                     onChange={this.onChange}
