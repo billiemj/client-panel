@@ -96,7 +96,7 @@ class ClientDetails extends Component {
                   aria-label="Basic example"
                 >
                   <MDBBtn
-                    href={"/client/edit/${client.id}"}
+                    href={`/client/edit/${client.id}`}
                     type="button"
                     className="btn btn-outline-deep-purple waves-effect"
                   >
