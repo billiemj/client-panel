@@ -3,13 +3,11 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { firestoreConnect } from "react-redux-firebase";
+import { firestoreConnect, firestoreReducer } from "react-redux-firebase";
 import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBBtn,
-  MDBInput,
   MDBCard,
   MDBCardBody,
   MDBIcon
@@ -17,7 +15,37 @@ import {
 import Spinner from "../layouts/Spinner";
 
 class EditClient extends Component {
-  onChange = e => this.setState({ [e.target.name]: e.target.value });
+  constructor(props) {
+    super(props);
+    //Create refs
+    this.firstNameInput = React.createRef();
+    this.lastNameInput = React.createRef();
+    this.emailInput = React.createRef();
+    this.phoneInput = React.createRef();
+    this.balanceInput = React.createRef();
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    const { client, firestore, history } = this.props;
+
+    //Updated Client
+    const updClient = {
+      firstName: this.firstNameInput.current.value,
+      lastName: this.lastNameInput.current.value,
+      email: this.emailInput.current.value,
+      phone: this.phoneInput.current.value,
+      balance:
+        this.balanceInput.current.value === ""
+          ? 0
+          : this.balanceInput.current.value
+    };
+
+    //Update client in firestore
+    firestore
+      .update({ collection: "clients", doc: client.id }, updClient)
+      .then(history.push("/"));
+  };
   render() {
     const { client } = this.props;
 
@@ -47,62 +75,60 @@ class EditClient extends Component {
                         name="firstName"
                         minLength="2"
                         required
+                        ref={this.firstNameInput}
                         defaultValue={client.firstName}
                       />
-                      <MDBInput
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="lastName">Last Name</label>
+                      <input
                         type="text"
-                        label="First Name"
-                        name="firstName"
-                        icon="user"
-                        group
+                        className="form-control"
+                        name="lastName"
                         minLength="2"
                         required
-                        defaultValue={client.firstName}
+                        ref={this.lastNameInput}
+                        defaultValue={client.lastName}
                       />
                     </div>
-                    <MDBInput
-                      label="Last Name"
-                      name="lastName"
-                      icon="user"
-                      group
-                      type="text"
-                      defaultValue={client.lastName}
-                      minLength="2"
-                      required
-                    />
-                    <MDBInput
-                      label="Email"
-                      icon="envelope"
-                      group
-                      name="email"
-                      type="email"
-                      defaultValue={client.email}
-                      required
-                    />
-                    <MDBInput
-                      label="Phone"
-                      icon="mobile-alt"
-                      group
-                      type="text"
-                      name="phone"
-                      defaultValue={client.phone}
-                      minLength="10"
-                    />
-
-                    <MDBInput
-                      label="Balance"
-                      icon="hand-holding-usd"
-                      group
-                      type="text"
-                      name="balance"
-                      defaultValue={client.balance}
-                    />
-
-                    <div className="text-center btn-block">
-                      <MDBBtn color="deep-purple darken-4" type="submit">
-                        Edit Client
-                      </MDBBtn>
+                    <div className="form-group">
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="email"
+                        className="form-control"
+                        name="email"
+                        ref={this.emailInput}
+                        defaultValue={client.email}
+                      />
                     </div>
+                    <div className="form-group">
+                      <label htmlFor="phone">Phone</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="phone"
+                        minLength="10"
+                        required
+                        ref={this.phoneInput}
+                        defaultValue={client.phone}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label htmlFor="balance">Balance</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="balance"
+                        ref={this.balanceInput}
+                        defaultValue={client.balance}
+                      />
+                    </div>
+                    <input
+                      type="submit"
+                      value="Submit"
+                      className="btn btn-deep-purple btn-block"
+                    />
                   </form>
                 </MDBCardBody>
               </MDBCard>

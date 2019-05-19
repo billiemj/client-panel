@@ -110,11 +110,11 @@ class AddClient extends Component {
                     onChange={this.onChange}
                   />
 
-                  <div className="text-center btn-block">
-                    <MDBBtn color="deep-purple darken-4" type="submit">
-                      Add Client
-                    </MDBBtn>
-                  </div>
+                  <input
+                    type="submit"
+                    value="Add Client"
+                    className="btn btn-deep-purple btn-block"
+                  />
                 </form>
               </MDBCardBody>
             </MDBCard>
