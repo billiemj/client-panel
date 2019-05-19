@@ -12,8 +12,7 @@ import {
   MDBCard,
   MDBCardBody,
   MDBIcon,
-  MDBCardHeader,
-  MDBInput
+  MDBCardHeader
 } from "mdbreact";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
