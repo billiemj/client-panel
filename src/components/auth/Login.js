@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-//import { compose } from "redux";
-//import { connect } from "react-redux";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import { firebaseConnect } from "react-redux-firebase";
+import { notifyUser } from "../../actions/notifyActions";
+import Alert from "../layouts/Alert";
+
 import {
   MDBContainer,
   MDBRow,
@@ -23,19 +26,20 @@ class Login extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const { firebase } = this.props;
+    const { firebase, notifyUser } = this.props;
     const { email, password } = this.state;
     firebase
       .login({
         email,
         password
       })
-      .catch(err => alert("Invalid Login Credentials"));
+      .catch(err => notifyUser("Invalid Login Credentials", "error"));
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    const { message, messageType } = this.props.notify;
     return (
       <MDBContainer>
         <MDBRow>
@@ -81,11 +85,14 @@ class Login extends Component {
                     className="btn btn-deep-purple btn-block"
                   />
                 </form>
+                {message ? (
+                  <Alert message={message} messageType={messageType} />
+                ) : null}
                 <MDBModalFooter>
-                  <div className="font-weight-light">
+                  {/* <div className="font-weight-light">
                     <p>Not a member? Sign Up</p>
                     <p>Forgot Password?</p>
-                  </div>
+                  </div> */}
                 </MDBModalFooter>
               </MDBCardBody>
             </MDBCard>
@@ -100,4 +107,12 @@ Login.propTypes = {
   firebase: PropTypes.object.isRequired
 };
 
-export default firebaseConnect()(Login);
+export default compose(
+  firebaseConnect(),
+  connect(
+    (state, props) => ({
+      notify: state.notify
+    }),
+    { notifyUser }
+  )
+)(Login);
