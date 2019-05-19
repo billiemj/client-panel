@@ -44,7 +44,7 @@ class Login extends Component {
               <MDBCardBody>
                 <MDBCardHeader className="form-header deep-purple darken-4 rounded">
                   <h3 className="my-3">
-                    <MDBIcon icon="lock" /> Login:
+                    <MDBIcon icon="lock" /> Login
                   </h3>
                 </MDBCardHeader>
                 <form onSubmit={this.onSubmit}>

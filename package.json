@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "firebase": "^6.0.2",
+    "history": "^4.9.0",
     "mdbreact": "git+https://oauth2:zbcp6H2mGf_qGwNxAbhB@git.mdbootstrap.com/mdb/react/re-pro.git",
     "react": "^16.8.6",
     "react-browser-router": "^2.1.2",
@@ -14,6 +15,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
+    "redux-auth-wrapper": "^2.1.0",
     "redux-firestore": "^0.8.0"
   },
   "scripts": {
