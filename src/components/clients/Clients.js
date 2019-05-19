@@ -56,6 +56,7 @@ class Clients extends Component {
               </h5>
             </MDBCol>
           </MDBRow>
+          <hr/>
           <MDBTable striped>
             <MDBTableHead>
               <tr>

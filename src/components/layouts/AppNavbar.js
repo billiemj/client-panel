@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { compose } from "redux";
+import { connect } from "react-redux";
+import { firebaseConnect } from "react-redux-firebase";
 import {
   MDBNavbar,
   MDBNavbarBrand,
@@ -9,13 +13,25 @@ import {
   MDBNavLink
 } from "mdbreact";
 
-export default class AppNavbar extends Component {
+class AppNavbar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapse: false
+      collapse: false,
+      isAuthenticated: false
     };
+
     this.onClick = this.onClick.bind(this);
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    const { auth } = props;
+
+    if (auth.uid) {
+      return { isAuthenticated: true };
+    } else {
+      return { isAuthenticated: false };
+    }
   }
 
   onClick() {
@@ -23,7 +39,16 @@ export default class AppNavbar extends Component {
       collapse: !this.state.collapse
     });
   }
+
+  onLogoutClick = e => {
+    e.preventDefault();
+
+    const { firebase } = this.props;
+    firebase.logout();
+  };
   render() {
+    const { isAuthenticated } = this.state;
+    const { auth } = this.props;
     return (
       <div className="pb-5">
         <header className="mb-5">
@@ -40,10 +65,25 @@ export default class AppNavbar extends Component {
             <MDBNavbarToggler onClick={this.onClick} />
             <MDBCollapse isOpen={this.state.collapse} navbar>
               <MDBNavbarNav left>
-                <MDBNavItem active>
-                  <MDBNavLink to="/">Dashboard</MDBNavLink>
-                </MDBNavItem>
+                {isAuthenticated ? (
+                  <MDBNavItem active>
+                    <MDBNavLink to="/">Dashboard</MDBNavLink>
+                  </MDBNavItem>
+                ) : null}
               </MDBNavbarNav>
+              {isAuthenticated ? (
+                <MDBNavbarNav right>
+                  <MDBNavItem>
+                    <MDBNavLink to="#!">{auth.email}</MDBNavLink>
+                  </MDBNavItem>
+
+                  <MDBNavItem>
+                    <MDBNavLink to="#!" onClick={this.onLogoutClick}>
+                      Logout
+                    </MDBNavLink>
+                  </MDBNavItem>
+                </MDBNavbarNav>
+              ) : null}
             </MDBCollapse>
           </MDBNavbar>
         </header>
@@ -51,3 +91,17 @@ export default class AppNavbar extends Component {
     );
   }
 }
+
+AppNavbar.propTypes = {
+  firebase: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
+};
+
+export default compose(
+  firebaseConnect(),
+  connect((state, props) => ({
+    auth: state.firebase.auth,
+    settings: state.settings
+  }))
+)(AppNavbar);
