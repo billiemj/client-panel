@@ -66,7 +66,7 @@ class AppNavbar extends Component {
             <MDBCollapse isOpen={this.state.collapse} navbar>
               <MDBNavbarNav left>
                 {isAuthenticated ? (
-                  <MDBNavItem active>
+                  <MDBNavItem>
                     <MDBNavLink to="/">Dashboard</MDBNavLink>
                   </MDBNavItem>
                 ) : null}
@@ -75,6 +75,10 @@ class AppNavbar extends Component {
                 <MDBNavbarNav right>
                   <MDBNavItem>
                     <MDBNavLink to="#!">{auth.email}</MDBNavLink>
+                  </MDBNavItem>
+
+                  <MDBNavItem>
+                    <MDBNavLink to="/settings">Settings</MDBNavLink>
                   </MDBNavItem>
 
                   <MDBNavItem>
