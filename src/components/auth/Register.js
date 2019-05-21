@@ -24,16 +24,23 @@ class Login extends Component {
     password: ""
   };
 
+  componentWillMount() {
+    const { allowRegistration } = this.props.settings;
+
+    if (!allowRegistration) {
+      this.props.history.push("/");
+    }
+  }
+
   onSubmit = e => {
     e.preventDefault();
     const { firebase, notifyUser } = this.props;
     const { email, password } = this.state;
+
+    //Register with firebase
     firebase
-      .login({
-        email,
-        password
-      })
-      .catch(err => notifyUser("Invalid Login Credentials", "error"));
+      .createUser({ email, password })
+      .catch(err => notifyUser("That User Already Exists"), "error");
   };
 
   onChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -48,7 +55,7 @@ class Login extends Component {
               <MDBCardBody>
                 <MDBCardHeader className="form-header deep-purple darken-4 rounded">
                   <h3 className="my-3">
-                    <MDBIcon icon="lock" /> Login
+                    <MDBIcon icon="lock" /> Register
                   </h3>
                 </MDBCardHeader>
                 <form onSubmit={this.onSubmit}>
@@ -79,19 +86,14 @@ class Login extends Component {
 
                   <input
                     type="submit"
-                    value="Login"
+                    value="Register"
                     className="btn btn-deep-purple btn-block"
                   />
                 </form>
                 {message ? (
                   <Alert message={message} messageType={messageType} />
                 ) : null}
-                <MDBModalFooter>
-                  {/* <div className="font-weight-light">
-                    <p>Not a member? Sign Up</p>
-                    <p>Forgot Password?</p>
-                  </div> */}
-                </MDBModalFooter>
+                <MDBModalFooter />
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -111,7 +113,8 @@ export default compose(
   firebaseConnect(),
   connect(
     (state, props) => ({
-      notify: state.notify
+      notify: state.notify,
+      settings: state.settings
     }),
     { notifyUser }
   )
