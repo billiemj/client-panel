@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import Clients from "../clients/Clients";
 import Sidebar from "../layouts/Sidebar";

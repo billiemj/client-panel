@@ -10,8 +10,6 @@ import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBBtn,
-  MDBInput,
   MDBCard,
   MDBCardBody,
   MDBIcon,
