@@ -3,7 +3,6 @@ import {
   MDBContainer,
   MDBRow,
   MDBCol,
-  MDBBtn,
   MDBInput,
   MDBCard,
   MDBCardBody,
@@ -11,8 +10,8 @@ import {
 } from "mdbreact";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-//import { compose } from "redux";
-//import { connect } from "react-redux";
+import { compose } from "redux";
+import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 class AddClient extends Component {
@@ -40,6 +39,7 @@ class AddClient extends Component {
   onChange = e => this.setState({ [e.target.name]: e.target.value });
 
   render() {
+    const { disableBalanceOnAdd } = this.props.settings;
     return (
       <MDBContainer>
         <MDBRow>
@@ -108,6 +108,7 @@ class AddClient extends Component {
                     name="balance"
                     value={this.state.balance}
                     onChange={this.onChange}
+                    disabled={disableBalanceOnAdd}
                   />
 
                   <input
@@ -126,6 +127,12 @@ class AddClient extends Component {
 }
 
 AddClient.propTypes = {
-  firestore: PropTypes.object.isRequired
+  firestore: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired
 };
-export default firestoreConnect()(AddClient);
+export default compose(
+  firestoreConnect(),
+  connect((state, props) => ({
+    settings: state.settings
+  }))
+)(AddClient);

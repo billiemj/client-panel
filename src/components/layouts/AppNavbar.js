@@ -49,6 +49,7 @@ class AppNavbar extends Component {
   render() {
     const { isAuthenticated } = this.state;
     const { auth } = this.props;
+    const { allowRegistration } = this.props.settings;
     return (
       <div className="pb-5">
         <header className="mb-5">
@@ -72,7 +73,9 @@ class AppNavbar extends Component {
                 ) : null}
               </MDBNavbarNav>
               {isAuthenticated ? (
+
                 <MDBNavbarNav right>
+                  
                   <MDBNavItem>
                     <MDBNavLink to="#!">{auth.email}</MDBNavLink>
                   </MDBNavItem>
@@ -85,6 +88,17 @@ class AppNavbar extends Component {
                     <MDBNavLink to="#!" onClick={this.onLogoutClick}>
                       Logout
                     </MDBNavLink>
+                  </MDBNavItem>
+
+                </MDBNavbarNav>
+              ) : null}
+              {allowRegistration && !isAuthenticated ? (
+                <MDBNavbarNav right>
+                  <MDBNavItem>
+                    <MDBNavLink to="/login">Login</MDBNavLink>
+                  </MDBNavItem>
+                  <MDBNavItem>
+                    <MDBNavLink to="/register">Register</MDBNavLink>
                   </MDBNavItem>
                 </MDBNavbarNav>
               ) : null}

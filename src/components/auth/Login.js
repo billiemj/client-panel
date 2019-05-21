@@ -68,8 +68,6 @@ class Login extends Component {
                     <MDBInput
                       label="Type your password"
                       icon="lock"
-                      value={this.state.password}
-                      onChange={this.onChange}
                       group
                       type="password"
                       name="password"

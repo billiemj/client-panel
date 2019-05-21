@@ -92,12 +92,6 @@ class Settings extends Component {
                       />
                     </MDBCol>
                   </MDBRow>
-
-                  <input
-                    type="submit"
-                    value="Update Settings"
-                    className="btn btn-deep-purple btn-block"
-                  />
                 </form>
               </MDBCardBody>
             </MDBCard>
