@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { firestoreConnect, firestoreReducer } from "react-redux-firebase";
+import { firestoreConnect } from "react-redux-firebase";
 import {
   MDBContainer,
   MDBRow,
@@ -102,8 +102,10 @@ class EditClient extends Component {
                         defaultValue={client.email}
                       />
                     </div>
+
                     <div className="form-group">
                       <label htmlFor="phone">Phone</label>
+
                       <input
                         type="text"
                         className="form-control"

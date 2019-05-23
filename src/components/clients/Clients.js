@@ -4,6 +4,7 @@ import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 import Spinner from "../layouts/Spinner";
+import NumberFormat from "react-number-format";
 
 import {
   MDBContainer,
@@ -15,6 +16,7 @@ import {
   MDBTableBody,
   MDBBtn
 } from "mdbreact";
+
 
 class Clients extends Component {
   state = {
@@ -51,12 +53,17 @@ class Clients extends Component {
               <h5 className="text-right text-secondary">
                 Total Owed:{" "}
                 <span className="text-primary">
-                  ${parseFloat(totalOwed).toFixed(2)}
+                  <NumberFormat
+                    value={totalOwed}
+                    displayType={"text"}
+                    thousandSeparator={true}
+                    prefix={"$"}
+                  />
                 </span>
               </h5>
             </MDBCol>
           </MDBRow>
-          <hr/>
+          <hr />
           <MDBTable striped>
             <MDBTableHead>
               <tr>
@@ -73,7 +80,14 @@ class Clients extends Component {
                     {client.firstName} {client.lastName}
                   </td>
                   <td>{client.email}</td>
-                  <td>${parseFloat(client.balance).toFixed(2)}</td>
+                  <td>
+                    <NumberFormat
+                      value={client.balance}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                    />
+                  </td>
                   <td>
                     <MDBBtn
                       href={`/client/${client.id}`}

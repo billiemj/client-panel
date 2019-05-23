@@ -16,6 +16,7 @@ import {
 } from "mdbreact";
 import { Link } from "react-router-dom";
 import classnames from "classnames";
+import NumberFormat from "react-number-format";
 
 class ClientDetails extends Component {
   state = {
@@ -135,10 +136,15 @@ class ClientDetails extends Component {
                       <span
                         className={classnames({
                           "text-danger": client.balance > 0,
-                          "text-success": client.balance == 0
+                          "text-success": client.balance === 0
                         })}
                       >
-                        ${parseFloat(client.balance).toFixed(2)}
+                        <NumberFormat
+                          value={client.balance}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                          prefix={"$"}
+                        />
                       </span>
                       <small>
                         <a
@@ -167,7 +173,13 @@ class ClientDetails extends Component {
                     Contact Email: {client.email}
                   </li>
                   <li className="list-group-item">
-                    Contact Phone:{client.phone}
+                    Contact Phone:{" "}
+                    <NumberFormat
+                      format="(###) ###-####"
+                      mask="_"
+                      displayType={"text"}
+                      value={client.phone}
+                    />
                   </li>
                 </ul>
               </MDBCardBody>

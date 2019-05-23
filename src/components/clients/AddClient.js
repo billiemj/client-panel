@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
+import NumberFormat from "react-number-format";
 
 class AddClient extends Component {
   state = {
@@ -89,7 +90,7 @@ class AddClient extends Component {
                     onChange={this.onChange}
                     required
                   />
-                  <MDBInput
+                  {/*  <MDBInput
                     label="Phone"
                     icon="mobile-alt"
                     group
@@ -97,8 +98,20 @@ class AddClient extends Component {
                     name="phone"
                     value={this.state.phone}
                     onChange={this.onChange}
-                    minLength="10"
-                  />
+                  /> */}
+                  <div className="form-group">
+                    <label htmlFor="phone">Phone</label>
+                    <NumberFormat
+                      type="text"
+                      className="form-control"
+                      name="phone"
+                      format="(###) ###-####"
+                      mask="_"
+                      value={this.state.phone}
+                      onChange={this.onChange}
+                      required
+                    />
+                  </div>
 
                   <MDBInput
                     label="Balance"
