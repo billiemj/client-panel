@@ -99,19 +99,21 @@ class AddClient extends Component {
                     value={this.state.phone}
                     onChange={this.onChange}
                   /> */}
-                  <div className="form-group">
-                    <label htmlFor="phone">Phone</label>
-                    <NumberFormat
-                      type="text"
-                      className="form-control"
-                      name="phone"
-                      format="(###) ###-####"
-                      mask="_"
-                      value={this.state.phone}
-                      onChange={this.onChange}
-                      required
-                    />
-                  </div>
+
+                  <NumberFormat
+                    label="Phone"
+                    icon="mobile-alt"
+                    group
+                    type="text"
+                    customInput={MDBInput}
+                    className="form-control"
+                    name="phone"
+                    format="(###) ###-####"
+                    mask="_"
+                    value={this.state.phone}
+                    onChange={this.onChange}
+                    required
+                  />
 
                   <MDBInput
                     label="Balance"

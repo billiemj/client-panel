@@ -31,7 +31,7 @@ class ClientDetails extends Component {
     const { balanceUpdateAmount } = this.state;
 
     const clientUpdate = {
-      balance: parseFloat(balanceUpdateAmount)
+      balance: parseFloat(balanceUpdateAmount).toFixed(2)
     };
 
     // Update in Firestore
@@ -62,6 +62,7 @@ class ClientDetails extends Component {
               type="number"
               name="balanceUpdateAmount"
               placeholder="Add New Balance"
+              pattern="[0-9]*" 
               value={balanceUpdateAmount}
               onChange={this.onChange}
             />

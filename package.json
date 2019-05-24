@@ -9,6 +9,7 @@
     "mdbreact": "git+https://oauth2:zbcp6H2mGf_qGwNxAbhB@git.mdbootstrap.com/mdb/react/re-pro.git",
     "react": "^16.8.6",
     "react-browser-router": "^2.1.2",
+    "react-currency-input": "^1.3.6",
     "react-dom": "^16.8.6",
     "react-number-format": "^4.0.8",
     "react-redux": "^5.1.1",
@@ -36,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cypress": "^3.3.1"
   }
 }
