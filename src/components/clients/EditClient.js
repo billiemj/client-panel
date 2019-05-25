@@ -10,7 +10,8 @@ import {
   MDBCol,
   MDBCard,
   MDBCardBody,
-  MDBIcon
+  MDBIcon,
+  MDBInput
 } from "mdbreact";
 import Spinner from "../layouts/Spinner";
 
@@ -68,7 +69,18 @@ class EditClient extends Component {
               <MDBCard className="deep-purple-text darken-4">
                 <MDBCardBody className="text-left">
                   <form onSubmit={this.onSubmit}>
-                    <div className="form-group">
+                    <MDBInput
+                      type="text"
+                      label="First Name"
+                      name="firstName"
+                      icon="user"
+                      group
+                      minLength="2"
+                      required
+                      ref={this.firstNameInput}
+                      valueDefault={client.firstName}
+                    />
+                    {/*              <div className="form-group">
                       <label htmlFor="firstName">First Name</label>
                       <input
                         type="text"
@@ -79,7 +91,7 @@ class EditClient extends Component {
                         ref={this.firstNameInput}
                         defaultValue={client.firstName}
                       />
-                    </div>
+                    </div> */}
                     <div className="form-group">
                       <label htmlFor="lastName">Last Name</label>
                       <input
